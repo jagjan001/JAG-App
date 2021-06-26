@@ -1,0 +1,23 @@
+trigger: none
+# only perform builds on PRs to master
+pr:
+  autoCancel: true
+  branches:
+   include: 
+   - master
+  paths:
+   exclude:
+   - README.md
+
+pool:
+  vmImage: 'Ubuntu-18.04'
+
+steps:
+- task: TerraformTool@0
+  inputs:
+    version: $(TERRAFORM_VERSION)
+
+- bash: |
+        terraform fmt -check -diff
+        
+  displayName: 'terrform fmt check'

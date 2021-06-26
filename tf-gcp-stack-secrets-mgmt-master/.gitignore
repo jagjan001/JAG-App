@@ -1,0 +1,8 @@
+.terraform/*
+*/.terraform/*
+terraform.tfstate*
+account.json*
+tf-gcp-*
+*.tfvars
+provider.tf
+tmp/*

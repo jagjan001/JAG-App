@@ -1,0 +1,27 @@
+[submodule "modules/tf-gcp-cloud-nat-mod"]
+	path = modules/tf-gcp-cloud-nat-mod
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-cloud-nat-mod.git
+[submodule "modules/tf-gcp-instance-template-mod"]
+	path = modules/tf-gcp-instance-template-mod
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-instance-template-mod.git
+[submodule "modules/tf-gcp-instance-group-mod"]
+	path = modules/tf-gcp-instance-group-mod
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-instance-group-mod.git
+[submodule "modules/tf-gcp-gcs-mod"]
+	path = modules/tf-gcp-gcs-mod
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-gcs-mod.git
+[submodule "modules/tf-gcp-network-firewall"]
+	path = modules/tf-gcp-network-firewall
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-network-firewall.git
+[submodule "modules/tf-gcp-gcn-mod"]
+	path = modules/tf-gcp-gcn-mod
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-gcn-mod.git
+[submodule "modules/tf-gcp-network-subnet"]
+	path = modules/tf-gcp-network-subnet
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-network-subnet.git
+[submodule "modules/tf-gcp-lb-mod"]
+	path = modules/tf-gcp-lb-mod
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-lb-mod.git
+[submodule "modules/tf-gcp-bastion-mod"]
+	path = modules/tf-gcp-bastion-mod
+	url = https://github.pwc.com/NIS-AppSec/tf-gcp-bastion-mod.git

@@ -1,0 +1,89 @@
+trigger: none
+
+pr:
+  autoCancel: true
+  branches:
+   include: 
+   - master
+  paths:
+   exclude:
+   - README.md
+
+variables:
+- group: gcp-vault-packer-build
+
+jobs:
+- job: build_vault
+  pool:
+    vmImage: 'Ubuntu-18.04'
+  steps:
+  - task: DownloadSecureFile@1
+    name: account
+    displayName: 'Download SA SecureFile'
+    inputs:
+      secureFile: 'pg-xn-n-app-525707-image.json'
+  - task: riezebosch.Packer.PackerTool.PackerTool@0
+    displayName: 'Use Packer'
+    inputs:
+      version: $(PACKER_VERSION)
+
+  - bash: |
+          sudo apt update -y
+          sudo apt install -y ruby ruby-dev libffi-dev build-essential
+          sudo gem install inspec-bin ed25519 bcrypt_pbkdf --no-document  inspec-bin
+  
+  - bash: |
+          sudo apt install jq -y
+
+  - bash: |
+          inspec check $(system.defaultWorkingDirectory)/tests/local/common --chef-license=accept-silent
+
+  - bash: |
+          packer validate --syntax-only $(system.defaultWorkingDirectory)/build.json
+
+  - bash: |
+          gcloud auth activate-service-account --key-file=$(account.secureFilePath)
+          export GOOGLE_APPLICATION_CREDENTIALS=$(account.secureFilePath)
+          cd $(system.defaultWorkingDirectory)
+          packer build \
+          -only="Vault Image" \
+          --var-file=./variables-pipeline.json \
+          -var "project_id=$(PROJECT_ID)" \
+          build.json 
+
+- job: build_consul
+  pool:
+    vmImage: 'Ubuntu-18.04'
+  steps:
+  - task: DownloadSecureFile@1
+    name: account
+    displayName: 'Download SA SecureFile'
+    inputs:
+      secureFile: 'pg-xn-n-app-525707-image.json'
+  - task: riezebosch.Packer.PackerTool.PackerTool@0
+    displayName: 'Use Packer'
+    inputs:
+      version: $(PACKER_VERSION)
+
+  - bash: |
+          sudo apt install -y ruby ruby-dev libffi-dev build-essential
+          sudo gem install inspec-bin ed25519 bcrypt_pbkdf --no-document  inspec-bin
+  
+  - bash: |
+          sudo apt install jq -y
+
+  - bash: |
+          inspec check $(system.defaultWorkingDirectory)/tests/local/common --chef-license=accept-silent
+
+  - bash: |
+          packer validate --syntax-only $(system.defaultWorkingDirectory)/build.json
+
+  - bash: |
+          gcloud auth activate-service-account --key-file=$(account.secureFilePath)
+          export GOOGLE_APPLICATION_CREDENTIALS=$(account.secureFilePath)
+          cd $(system.defaultWorkingDirectory)/
+          packer build \
+          -only="Consul Image" \
+          --var-file=./variables-pipeline.json \
+          -var "project_id=$(PROJECT_ID)" \
+          build.json 
