@@ -1,7 +1,0 @@
-[Unit]
-Description=run inspec tests
-
-[Service]
-User=consul
-Type=oneshot
-ExecStart=/opt/chef/inspec/run_inspec.sh
